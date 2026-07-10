@@ -33,6 +33,9 @@ import numpy as np
 BASE = os.path.dirname(os.path.abspath(__file__))
 CFG = json.load(open(os.path.join(BASE, 'config.json'), encoding='utf-8'))
 
+import paths
+paths.resolve_config(CFG)   # 桌機/筆電共用：金鑰路徑自動找本機 ~/.claude/secrets/
+
 def fit_panel(g):
     """lnQ ~ lnP + 月序 + 月份dummies + 型號dummies → (E, se)"""
     g = g.copy()

@@ -21,7 +21,7 @@
 ## 每月操作
 
 ```
-cd C:\Users\Eric\Desktop\Claude\pricing-system
+cd G:\我的雲端硬碟\claude-memory\desktopcode\pricing-system
 python run_monthly.py
 ```
 
@@ -29,6 +29,24 @@ python run_monthly.py
 - `output/dashboard.html` — 互動儀表板，**直接雙擊開啟**。搜尋、按品牌/方向篩選、
   點欄位排序、點任一列開 what-if 試算
 - `output/調價指令表_YYYYMM.xlsx` — Excel 版
+
+## 桌機／筆電共用（專案放 Google Drive）
+
+程式碼與產出隨 Drive 同步，但**金鑰不同步**——它只在各台機器的 `~/.claude/secrets/`。
+`paths.py` 會自動解析：先用 config.json 寫的路徑，找不到就找本機
+`~/.claude/secrets/<同檔名>`，再不然看環境變數 `IGOGO_SECRETS_DIR`。
+同一份 config 在兩台機器都能跑，不用改。
+
+**筆電上要先確認的事：**
+1. `~/.claude/secrets/` 有 `bq_sa.json` 與 `igogo.env`（從桌機安全地複製過去，別放進 Drive）
+2. 裝好 `pandas openpyxl numpy google-cloud-bigquery requests`
+3. **ECOUNT API 綁 IP**——筆電若不在白名單，抓「建議售價」會失敗。此時系統自動回退：
+   售價改用供貨價推估（該列標「推估」），庫存改讀 BigQuery。
+   BigQuery 不綁 IP，所以彈性、毛利、競品錨定照常運作。
+4. **競品爬蟲排程只在桌機**（Windows 工作排程器），筆電不用重複建。
+
+Drive 同步注意：`output/` 與 `cache/` 會一起同步，兩台同時跑可能衝突。
+建議固定在一台跑，另一台只看結果。
 
 ## 競品錨定（漲價天花板）
 

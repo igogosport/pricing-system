@@ -15,7 +15,10 @@ urllib3.disable_warnings()
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 BASE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, BASE)
 CFG = json.load(open(os.path.join(BASE, 'config.json'), encoding='utf-8'))
+import paths
+paths.resolve_config(CFG)   # 桌機/筆電共用：金鑰路徑自動找本機 ~/.claude/secrets/
 TABLE = 'igogo-sales-dw.sales.competitor_prices'
 
 # 涵蓋各形態的關鍵字（搜尋會回傳相關品，形態最後由品名分類）
